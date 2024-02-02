@@ -1,8 +1,13 @@
 import { Canvas, useFrame } from "@react-three/fiber";
 import "./App.css";
-import { Vector3 } from "three";
+import { PlaneGeometry, Scene, Vector3 } from "three";
 import { useRef, useState } from "react";
-import { MeshDistortMaterial, MeshWobbleMaterial, OrbitControls } from "@react-three/drei";
+import {
+  MeshDistortMaterial,
+  MeshWobbleMaterial,
+  OrbitControls,
+} from "@react-three/drei";
+import { Water } from "three/examples/jsm/objects/Water2.js";
 
 const Cube = ({
   position,
@@ -41,6 +46,26 @@ const Sphere = ({
 
   const [isHovered, setIsHovered] = useState(false);
 
+  {
+    /*const scene = new Scene();
+  const water = new Water(
+    new PlaneGeometry(10000, 10000),
+    {
+      textureWidth: 512,
+      textureHeight: 512,
+      waterNormals: new THREE.TextureLoader().load("waternormals.jpg", function (texture) {
+        texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
+      }),
+      alpha: 1.0,
+      sunDirection: new THREE.Vector3(),
+      sunColor: 0xffffff,
+      waterColor: 0x001e0f,
+      distortionScale: 3.7,
+      fog: scene.fog !== undefined
+    }
+  )*/
+  }
+
   return (
     <mesh
       position={position}
@@ -48,7 +73,13 @@ const Sphere = ({
       onPointerLeave={(event) => (event.stopPropagation(), setIsHovered(false))}
     >
       <sphereGeometry args={size} />
-      <MeshDistortMaterial distort={.4} color={isHovered ? "hotpink" : "#d4f1f9"} />
+      <MeshDistortMaterial
+        distort={0.45}
+        transmission={.4}
+        thickness={.5}
+        roughness={0.4}
+        color={isHovered ? color : "#d4f1f9"}
+      />
       <OrbitControls />
     </mesh>
   );
@@ -57,8 +88,8 @@ const Sphere = ({
 const App = () => {
   return (
     <Canvas>
-      <directionalLight position={[-1, -0.5, 2]} intensity={2} />
-      <ambientLight intensity={0.2} />
+      <directionalLight position={[-1, -0.5, 2]} intensity={1} />
+      <ambientLight intensity={0.1} />
 
       {/*<group position={[0, 0, .5]}>
         <Cube
@@ -94,7 +125,6 @@ const App = () => {
         size={[1, 30, 30]}
         color={"hotpink"}
       />
-
     </Canvas>
   );
 };
