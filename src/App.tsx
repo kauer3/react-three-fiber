@@ -74,13 +74,25 @@ const Sphere = ({
     >
       <sphereGeometry args={size} />
       <MeshDistortMaterial
-        distort={0.45}
-        transmission={.4}
-        thickness={.5}
-        roughness={0.4}
+        transmission={.5}
+        thickness={0.5}
+        roughness={0}
         color={isHovered ? color : "#d4f1f9"}
       />
-      <OrbitControls />
+    </mesh>
+  );
+};
+
+const Icosahedron = () => {
+  return (
+    <mesh position={[0, 0, 0]}>
+      <icosahedronGeometry args={[1, 0]} />
+      <meshPhysicalMaterial
+        color={"#d4f1f9"}
+        roughness={0}
+        transmission={0}
+        thickness={0.5}
+      />
     </mesh>
   );
 };
@@ -88,10 +100,12 @@ const Sphere = ({
 const App = () => {
   return (
     <Canvas>
-      <directionalLight position={[-1, -0.5, 2]} intensity={1} />
-      <ambientLight intensity={0.1} />
+      <directionalLight color={"fff0dd"} position={[0, 5, 10]} />
+      <directionalLight color={"fff0dd"} position={[0, 5, -10]} />
 
-      {/*<group position={[0, 0, .5]}>
+      {/*<ambientLight intensity={0.1} />
+
+      <group position={[0, 0, .5]}>
         <Cube
           position={new Vector3(1, 1, 2)}
           size={[1, 1, 1]}
@@ -121,10 +135,13 @@ const App = () => {
       />*/}
 
       <Sphere
-        position={new Vector3(0, 0, 0)}
+        position={new Vector3(0, 0, -2.5)}
         size={[1, 30, 30]}
         color={"hotpink"}
       />
+
+      <Icosahedron />
+      <OrbitControls />
     </Canvas>
   );
 };
