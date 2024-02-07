@@ -13,7 +13,7 @@ import { GLTFLoader } from "three/examples/jsm/Addons.js";
 import LoadScreen from "./components/load";
 
 const BackgroundDrops = () => {
-  const bgTexture = useLoader(TextureLoader, "src/assets/leaves.jpg");
+  const bgTexture = useLoader(TextureLoader, "leaves.jpg");
   return (
     <mesh position={[0, 0, -1.5]}>
       <planeGeometry args={[7, 7]} />
@@ -23,7 +23,7 @@ const BackgroundDrops = () => {
 };
 
 const BackgroundIcosahedron = () => {
-  const bgTexture = useLoader(TextureLoader, "src/assets/flowers.jpg");
+  const bgTexture = useLoader(TextureLoader, "flowers.jpg");
   return (
     <mesh position={[10, 0, -1.5]}>
       <planeGeometry args={[7, 7]} />
@@ -33,7 +33,7 @@ const BackgroundIcosahedron = () => {
 };
 
 const BackgroundDragon = () => {
-  const bgTexture = useLoader(TextureLoader, "src/assets/scale.jpg");
+  const bgTexture = useLoader(TextureLoader, "scale.jpg");
   return (
     <mesh position={[-10, 0, -1.5]}>
       <planeGeometry args={[7, 7]} />
@@ -53,7 +53,7 @@ const Drop = ({ position, size }: { position: Vector3; size: any }) => {
     >
       <sphereGeometry args={size} />
       <MeshDistortMaterial
-        distort={0.4}
+        distort={0.45}
         speed={0.3}
         transmission={0.95}
         thickness={0.7}
@@ -111,7 +111,7 @@ const Dragon = () => {
 
   return (
     <mesh
-      position={[-9.8, 0, 0.5]}
+      position={[-10, 0, 0.8]}
       scale={[0.4, 0.4, 0.4]}
       geometry={geometry}
       onPointerEnter={(event) => (event.stopPropagation(), setIsHovered(true))}
@@ -122,7 +122,7 @@ const Dragon = () => {
         roughness={0}
         transmission={1}
         thickness={2}
-        color={isHovered ? "hotpink" : "#d4f1f9"}
+        color={isHovered ? "hotpink" : "#ffffff"}
       />
     </mesh>
   );
@@ -144,10 +144,11 @@ const Scene = () => {
         {(texture): Element => (
           <>
             <Environment map={texture} />
+            <group position={[0, 0, 0.5]}>
             <Drop position={new Vector3(0, 0, 0)} size={[1, 30, 30]} />
             <Drop position={new Vector3(1.1, 1.2, 0.5)} size={[0.5, 30, 30]} />
             <Drop position={new Vector3(0.2, 1.7, -1)} size={[0.25, 30, 30]} />
-            <Drop position={new Vector3(-0.5, 1.3, 1)} size={[0.1, 30, 30]} />
+            <Drop position={new Vector3(-0.37, 1.63, .35)} size={[0.1, 30, 30]} />
             <Drop
               position={new Vector3(-1.25, 0.7, -0.55)}
               size={[0.33, 30, 30]}
@@ -161,25 +162,32 @@ const Scene = () => {
               size={[0.12, 30, 30]}
             />
             <Drop
-              position={new Vector3(-1.2, -0.5, -1)}
+              position={new Vector3(-1.2, -0.5, -0.85)}
               size={[0.22, 30, 30]}
             />
+            <Drop
+              position={new Vector3(-.52, -0.1, 1.6)}
+              size={[0.08, 30, 30]}
+            />
+            </group>
 
+            <group position={[10, 0, 0]}>
             <Icosahedron
-              position={new Vector3(7.9, -2, 0.5)}
+              position={new Vector3(-2, -2, 0.5)}
               size={[1, 0]}
               roughness={0}
             />
             <Icosahedron
-              position={new Vector3(9.9, 0, 0.5)}
+              position={new Vector3(0, 0, 0.5)}
               size={[1, 0]}
               roughness={0.33}
             />
             <Icosahedron
-              position={new Vector3(11.9, 2, 0.5)}
+              position={new Vector3(2, 2, 0.5)}
               size={[1, 0]}
               roughness={0.45}
             />
+            </group>
             <Dragon />
           </>
         )}
