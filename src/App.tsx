@@ -5,12 +5,13 @@ import { Suspense, useState } from "react";
 import {
   CubeCamera,
   Environment,
-  MeshDistortMaterial,
   OrbitControls,
   useEnvironment,
 } from "@react-three/drei";
 import { GLTFLoader } from "three/examples/jsm/Addons.js";
-import LoadScreen from "./components/load";
+import LoadScreen from "./components/loading";
+import Drop from "./components/drop";
+import Icosahedron from "./components/icosahedron";
 
 const BackgroundDrops = () => {
   const bgTexture = useLoader(TextureLoader, "leaves.jpg");
@@ -38,56 +39,6 @@ const BackgroundDragon = () => {
     <mesh position={[-10, 0, -1.5]}>
       <planeGeometry args={[7, 7]} />
       <meshBasicMaterial map={bgTexture} />
-    </mesh>
-  );
-};
-
-const Drop = ({ position, size }: { position: Vector3; size: any }) => {
-  const [isHovered, setIsHovered] = useState(false);
-
-  return (
-    <mesh
-      position={position}
-      onPointerEnter={(event) => (event.stopPropagation(), setIsHovered(true))}
-      onPointerLeave={(event) => (event.stopPropagation(), setIsHovered(false))}
-    >
-      <sphereGeometry args={size} />
-      <MeshDistortMaterial
-        distort={0.45}
-        speed={0.3}
-        transmission={0.95}
-        thickness={0.7}
-        roughness={0}
-        color={isHovered ? "#99ddff" : "#e4ffff"}
-      />
-    </mesh>
-  );
-};
-
-const Icosahedron = ({
-  position,
-  size,
-  roughness,
-}: {
-  position: Vector3;
-  size: any;
-  roughness: number;
-}) => {
-  const [isHovered, setIsHovered] = useState(false);
-  return (
-    <mesh
-      position={position}
-      onPointerEnter={(event) => (event.stopPropagation(), setIsHovered(true))}
-      onPointerLeave={(event) => (event.stopPropagation(), setIsHovered(false))}
-    >
-      <icosahedronGeometry args={size} />
-      <meshPhysicalMaterial
-        metalness={0}
-        roughness={roughness}
-        transmission={1}
-        thickness={2}
-        color={isHovered ? "orange" : "#d4f1f9"}
-      />
     </mesh>
   );
 };
@@ -145,48 +96,57 @@ const Scene = () => {
           <>
             <Environment map={texture} />
             <group position={[0, 0, 0.5]}>
-            <Drop position={new Vector3(0, 0, 0)} size={[1, 30, 30]} />
-            <Drop position={new Vector3(1.1, 1.2, 0.5)} size={[0.5, 30, 30]} />
-            <Drop position={new Vector3(0.2, 1.7, -1)} size={[0.25, 30, 30]} />
-            <Drop position={new Vector3(-0.37, 1.63, .35)} size={[0.1, 30, 30]} />
-            <Drop
-              position={new Vector3(-1.25, 0.7, -0.55)}
-              size={[0.33, 30, 30]}
-            />
-            <Drop
-              position={new Vector3(1.25, 0.2, 0.4)}
-              size={[0.17, 30, 30]}
-            />
-            <Drop
-              position={new Vector3(1.2, -0.8, -0.4)}
-              size={[0.12, 30, 30]}
-            />
-            <Drop
-              position={new Vector3(-1.2, -0.5, -0.85)}
-              size={[0.22, 30, 30]}
-            />
-            <Drop
-              position={new Vector3(-.52, -0.1, 1.6)}
-              size={[0.08, 30, 30]}
-            />
+              <Drop position={new Vector3(0, 0, 0)} size={[1, 30, 30]} />
+              <Drop
+                position={new Vector3(1.1, 1.2, 0.5)}
+                size={[0.5, 30, 30]}
+              />
+              <Drop
+                position={new Vector3(0.2, 1.7, -1)}
+                size={[0.25, 30, 30]}
+              />
+              <Drop
+                position={new Vector3(-0.37, 1.63, 0.35)}
+                size={[0.1, 30, 30]}
+              />
+              <Drop
+                position={new Vector3(-1.25, 0.7, -0.55)}
+                size={[0.33, 30, 30]}
+              />
+              <Drop
+                position={new Vector3(1.25, 0.2, 0.4)}
+                size={[0.17, 30, 30]}
+              />
+              <Drop
+                position={new Vector3(1.2, -0.8, -0.4)}
+                size={[0.12, 30, 30]}
+              />
+              <Drop
+                position={new Vector3(-1.2, -0.5, -0.85)}
+                size={[0.22, 30, 30]}
+              />
+              <Drop
+                position={new Vector3(-0.52, -0.1, 1.6)}
+                size={[0.08, 30, 30]}
+              />
             </group>
 
             <group position={[10, 0, 0]}>
-            <Icosahedron
-              position={new Vector3(-2, -2, 0.5)}
-              size={[1, 0]}
-              roughness={0}
-            />
-            <Icosahedron
-              position={new Vector3(0, 0, 0.5)}
-              size={[1, 0]}
-              roughness={0.33}
-            />
-            <Icosahedron
-              position={new Vector3(2, 2, 0.5)}
-              size={[1, 0]}
-              roughness={0.45}
-            />
+              <Icosahedron
+                position={new Vector3(-2, -2, 0.5)}
+                size={[1, 0]}
+                roughness={0}
+              />
+              <Icosahedron
+                position={new Vector3(0, 0, 0.5)}
+                size={[1, 0]}
+                roughness={0.33}
+              />
+              <Icosahedron
+                position={new Vector3(2, 2, 0.5)}
+                size={[1, 0]}
+                roughness={0.45}
+              />
             </group>
             <Dragon />
           </>
