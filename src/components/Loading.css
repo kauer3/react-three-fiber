@@ -19,8 +19,6 @@ body {
 }
 
 .rotate {
-  padding: 0;
-  margin: 0;
   transform: rotateX(35deg);
   transform-style: preserve-3d;
   display: grid;
