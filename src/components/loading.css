@@ -1,0 +1,49 @@
+@keyframes rotateY {
+  0% {
+    transform: rotateY(90deg);
+  }
+  100% {
+    transform: rotateY(-90deg);
+  }
+}
+
+body {
+  background-color: #000;
+}
+
+.wrapper {
+  display: grid;
+  place-items: center;
+  height: 100vh;
+  width: 100vw;
+}
+
+.rotate {
+  transform: rotateX(35deg);
+  transform-style: preserve-3d;
+  display: grid;
+  place-items: center;
+}
+
+.rotate {
+  position: relative;
+}
+
+.rotate::before,
+.rotate::after {
+  position: absolute;
+  content: "LOADING";
+  animation: rotateY 1s linear infinite;
+  transform-style: preserve-3d;
+  perspective: 1000px;
+  font:
+    40px Tahoma,
+    sans-serif;
+  color: white;
+  letter-spacing: 5px;
+}
+
+.rotate::before {
+  transform: rotateY(90deg);
+  animation-delay: .5s;
+}
