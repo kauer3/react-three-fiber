@@ -1,7 +1,7 @@
 import { Canvas, useLoader } from "@react-three/fiber";
 import "./App.css";
 import { TextureLoader, Vector3 } from "three";
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import {
   CubeCamera,
   Environment,
@@ -10,6 +10,7 @@ import {
   useEnvironment,
 } from "@react-three/drei";
 import { GLTFLoader } from "three/examples/jsm/Addons.js";
+import LoadScreen from "./components/load";
 
 const BackgroundDrops = () => {
   const bgTexture = useLoader(TextureLoader, "src/assets/leaves.jpg");
@@ -53,11 +54,11 @@ const Drop = ({ position, size }: { position: Vector3; size: any }) => {
       <sphereGeometry args={size} />
       <MeshDistortMaterial
         distort={0.4}
-        speed={.3}
-        transmission={0.9}
-        thickness={0.5}
+        speed={0.3}
+        transmission={0.95}
+        thickness={0.7}
         roughness={0}
-        color={isHovered ? "#99ddff" : "#d4f1f9"}
+        color={isHovered ? "#99ddff" : "#e4ffff"}
       />
     </mesh>
   );
@@ -103,7 +104,6 @@ const Dragon = () => {
   geometry.rotateX(Math.PI / 2);
   geometry.translate(0, -4, 0);
 
-  // Discard the loaded model
   gltf.scene.children.forEach((child) => {
     child.geometry.dispose();
     child.material.dispose();
@@ -133,8 +133,7 @@ const Scene = () => {
   return (
     <>
       <color attach="background" args={["#000"]} />
-      <ambientLight intensity={0.1} />
-      <Environment map={envMap} />
+      <Environment map={envMap} background />
 
       <BackgroundDrops />
       <BackgroundIcosahedron />
@@ -144,14 +143,27 @@ const Scene = () => {
         {/*@ts-ignore*/}
         {(texture): Element => (
           <>
+            <Environment map={texture} />
             <Drop position={new Vector3(0, 0, 0)} size={[1, 30, 30]} />
             <Drop position={new Vector3(1.1, 1.2, 0.5)} size={[0.5, 30, 30]} />
             <Drop position={new Vector3(0.2, 1.7, -1)} size={[0.25, 30, 30]} />
             <Drop position={new Vector3(-0.5, 1.3, 1)} size={[0.1, 30, 30]} />
-            <Drop position={new Vector3(-1.25, 0.7, -0.55)} size={[0.33, 30, 30]} />
-            <Drop position={new Vector3(1.25, 0.2, 0.4)} size={[0.17, 30, 30]} />
-            <Drop position={new Vector3(1.2, -0.8, -0.4)} size={[0.12, 30, 30]} />
-            <Drop position={new Vector3(-1.2, -0.5, -1)} size={[0.22, 30, 30]} />
+            <Drop
+              position={new Vector3(-1.25, 0.7, -0.55)}
+              size={[0.33, 30, 30]}
+            />
+            <Drop
+              position={new Vector3(1.25, 0.2, 0.4)}
+              size={[0.17, 30, 30]}
+            />
+            <Drop
+              position={new Vector3(1.2, -0.8, -0.4)}
+              size={[0.12, 30, 30]}
+            />
+            <Drop
+              position={new Vector3(-1.2, -0.5, -1)}
+              size={[0.22, 30, 30]}
+            />
 
             <Icosahedron
               position={new Vector3(7.9, -2, 0.5)}
@@ -166,7 +178,7 @@ const Scene = () => {
             <Icosahedron
               position={new Vector3(11.9, 2, 0.5)}
               size={[1, 0]}
-              roughness={0.43}
+              roughness={0.45}
             />
             <Dragon />
           </>
@@ -180,14 +192,16 @@ const Scene = () => {
 
 const App = () => {
   return (
-    <Canvas
-      gl={{
-        antialias: true,
-        alpha: false,
-      }}
-    >
-      <Scene />
-    </Canvas>
+    <Suspense fallback={<LoadScreen />}>
+      <Canvas
+        gl={{
+          antialias: true,
+          alpha: false,
+        }}
+      >
+        <Scene />
+      </Canvas>
+    </Suspense>
   );
 };
 
