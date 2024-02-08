@@ -55,7 +55,7 @@ const Dragon = () => {
   geometry.rotateX(Math.PI / 2);
   geometry.translate(0, -4, 0);
 
-  gltf.scene.children.forEach((child) => {
+  gltf.scene.children.forEach((child: any) => {
     child.geometry.dispose();
     child.material.dispose();
   });
