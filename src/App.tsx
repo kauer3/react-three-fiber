@@ -80,11 +80,13 @@ const Dragon = () => {
 };
 
 const Scene = () => {
-  const envMap = useEnvironment({ files: "neon.hdr" });
+  const envMapBackground = useEnvironment({ files: "neon.hdr" });
+  const envMapReflections = useEnvironment({ files: "neon-low.hdr" });
   return (
     <>
       <color attach="background" args={["#000"]} />
-      <Environment map={envMap} background />
+      <Environment map={envMapBackground} background={"only"} />
+      <Environment map={envMapReflections} />
 
       <BackgroundDrops />
       <BackgroundIcosahedron />
